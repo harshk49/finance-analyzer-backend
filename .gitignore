@@ -1,0 +1,36 @@
+# ── Environment ─────────────────────────────────────
+.env
+!.env.example
+
+# ── Python ──────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# ── IDE ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Docker ──────────────────────────────────────────
+pgdata/
+
+# ── Uploads ─────────────────────────────────────────
+temp_uploads/*
+!temp_uploads/.gitkeep
+
+# ── ML Models ──────────────────────────────────────
+server/ml/trained_models/*.pkl
+server/ml/trained_models/*.joblib
+
+# ── OS ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
