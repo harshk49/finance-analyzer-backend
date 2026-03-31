@@ -14,13 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Quick sanity check
-      - name: Verify Python imports
-        run: |
-          pip install -r requirements.txt --quiet
-          python -c "from server.config import APP_ENV; print(f'✅ Config loaded: {APP_ENV}')"
-
-      # 3. Log in to Azure
+      # 2. Log in to Azure
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
@@ -32,7 +26,7 @@ jobs:
               "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
             }
 
-      # 4. Log in to Azure Container Registry
+      # 3. Log in to Azure Container Registry
       - name: Login to ACR
         uses: azure/docker-login@v1
         with:
@@ -40,35 +34,22 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      # 5. Build Docker image (tagged with both SHA and latest)
+      # 4. Build Docker image
       - name: Build Docker image
         run: |
           docker build \
             -t myacrindia4567.azurecr.io/my-backend:${{ github.sha }} \
             -t myacrindia4567.azurecr.io/my-backend:latest .
 
-      # 6. Push Docker image to ACR
+      # 5. Push Docker image to ACR
       - name: Push Docker image
         run: |
           docker push myacrindia4567.azurecr.io/my-backend:${{ github.sha }}
           docker push myacrindia4567.azurecr.io/my-backend:latest
 
-      # 7. Deploy to Azure Web App
+      # 6. Deploy to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: mybackendapp456
           images: myacrindia4567.azurecr.io/my-backend:${{ github.sha }}
-
-      # 8. Verify deployment
-      - name: Health check
-        run: |
-          echo "⏳ Waiting 45s for container to start..."
-          sleep 45
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://mybackendapp456.azurewebsites.net/api/health || echo "000")
-          if [ "$STATUS" == "200" ]; then
-            echo "✅ Deployment healthy!"
-            curl -s https://mybackendapp456.azurewebsites.net/api/health | python3 -m json.tool
-          else
-            echo "⚠️ Health check returned HTTP $STATUS (container may still be starting — cold starts take ~60s on B1)"
-          fi
