@@ -25,3 +25,6 @@ threadpoolctl==3.6.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
 uvicorn==0.42.0
+gunicorn==23.0.0
+httptools==0.6.4
+uvloop==0.21.0

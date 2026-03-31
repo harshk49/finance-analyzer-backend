@@ -1,0 +1,47 @@
+# Version control
+.git
+.gitignore
+
+# Virtual environments
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files (injected via Azure App Settings)
+.env
+.env.example
+
+# Documentation
+*.md
+LICENSE
+
+# Docker
+docker-compose*.yml
+Dockerfile
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test data
+mock_bank_statement.csv
+
+# ML trained models (will be generated at runtime)
+server/ml/trained_models/*.pkl
+server/ml/trained_models/*.joblib
+
+# Temp
+temp_uploads/*
+!temp_uploads/.gitkeep
+
+# Pyre / Pyright
+.pyre_configuration
+pyrightconfig.json
